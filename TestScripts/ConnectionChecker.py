@@ -14,6 +14,7 @@ def exec_cmd(c):
         return dict(status='Error', msg=msg)
     try:
         pprint.pprint(c)
+        res = dict(is_sccess=True)
     except KeyError:
         cmd_arg = [s for s in c.keys() if s != 'command']
         msg = 'Invalid argument : "{0}" -> {{{1}}}'.format(
