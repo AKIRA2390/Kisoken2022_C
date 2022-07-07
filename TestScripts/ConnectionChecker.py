@@ -2,7 +2,7 @@ import socket
 import json
 import pprint
 
-HOST = '127.0.0.1'
+HOST = '192.168.1.36'
 PORT = 8893
 BUFFER_SIZE = 1024
 
@@ -27,7 +27,7 @@ def exec_cmd(c):
 
 try:
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        s.settimeout(3)
+        # s.settimeout(3)
         s.bind((HOST, PORT))
         s.listen()
         while True:
