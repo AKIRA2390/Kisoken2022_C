@@ -35,7 +35,7 @@ try:
             c, client = s.accept()
             print('Client connected {0}'.format(client))
             try:
-                cmd_dict = json.loads(c.recv(BUFFER_SIZE).decode('UTF-8'))
+                cmd_dict: dict = json.loads(c.recv(BUFFER_SIZE).decode('UTF-8'))
                 res = exec_cmd(cmd_dict)
                 print(res)
                 c.send(json.dumps(res, ensure_ascii=False).encode())
