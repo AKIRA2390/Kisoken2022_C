@@ -1,8 +1,8 @@
 #include <M5Unified.h>
 // #include <Arduino.h>
-#include <ArduinoJson.h>>
-#include <ESP32Servo.h>
+#include <ArduinoJson.h>
 #include "WiFi.h"
+#include <Servo.h>
 
 const char* WIFI_SSID = "ipad_akira";
 const char* WIFI_PASS = "kisokenCWiFi";
@@ -42,10 +42,10 @@ void setup() {
   pinMode(26,OUTPUT);
   GripServo.attach(26);
   CounterServo.attach(36);
-  GripServo.write(180);
 }
 
 void loop() {
+  GripServo.write(0);
   // put your main
   M5.update();
 
