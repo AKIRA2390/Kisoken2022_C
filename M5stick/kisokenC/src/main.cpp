@@ -1,20 +1,19 @@
 #include <M5Unified.h>
 // #include <Arduino.h>
 #include <ArduinoJson.h>
-#include "WiFi.h"
 #include <Servo.h>
+
+#include "WiFi.h"
 
 const char* WIFI_SSID = "ipad_akira";
 const char* WIFI_PASS = "kisokenCWiFi";
 const uint16_t port = 8893;
 const char* host = "192.168.1.100";
 WiFiClient client;
-StaticJsonDocument<1024> json;
 
 Servo GripServo;
 Servo CounterServo;
-// void MOVJ(StaticJsonDocument<1024>* json, int x, int y, int z,
-//           bool isrightOrientation);
+void MOVJ(int x, int y, int z, int r);
 
 void setup() {
   // put your setup code here, to run once:
@@ -39,31 +38,55 @@ void setup() {
     delay(5000);
   }
   Serial.begin(115200);
-  pinMode(26,OUTPUT);
+  pinMode(26, OUTPUT);
+  pinMode(36, OUTPUT);
   GripServo.attach(26);
   CounterServo.attach(36);
 }
 
 void loop() {
-  GripServo.write(0);
+  MOVJ(280, -100, 170, 0);
+  // StaticJsonDocument<1024> json2;
+  // json2["command"] = "JumpTo";
+  // json2["x"] = 380;
+  // json2["y"] = -100;
+  // json2["z"] = 170;
+  // json2["r"] = 0;
+  // char data2[500];
+  // serializeJson(json2, data2);
+  // client.write(data2);
+  // GripServo.write(180);
+  // CounterServo.write(180);
+  delay(5000);
+
+  MOVJ(280, 100, 170, 0);
+  // GripServo.write(0);
+  // CounterServo.write(0);
+  delay(5000);
   // put your main
   M5.update();
 
-  if (!client.connect(host, port)) {
+  // if (M5.BtnA.wasPressed()) {
+  // }
+}
+
+void MOVJ(int x, int y, int z, int r) {
+    if (!client.connect(host, port)) {
     Serial.println("Connection failed.");
-    Serial.println("Waiting 5 seconds before retrying...");
-    delay(5000);
+    Serial.println(host);
+    Serial.println(port);
+    // Serial.println("Waiting 5 seconds before retrying...");
+    // delay(5000);
     return;
   }
-
+  StaticJsonDocument<1024> json;
   json["command"] = "JumpTo";
-  json["x"] = 0;
-  json["y"] = 0;
-  json["z"] = 70;
-  json["r"] = 0;
+  json["x"] = x;
+  json["y"] = y;
+  json["z"] = z;
+  json["r"] = r;
   char data[500];
   serializeJson(json, data);
-  if (M5.BtnA.wasPressed()) {
-    client.write(data);
-  }
+  client.write(data);
+  json.clear();
 }
