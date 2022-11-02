@@ -20,12 +20,12 @@ typedef struct coordinate_t {
 
 int TrayPos[3][2][3] = {
     // TrayNum, PrePost, xyr
-    {{158, 317, 135}, {158, -317, -135}},
-    {{264, 145, 135}, {264, -145, -135}},
-    {{399, -24, 135}, {399, 24, -135}},
+    {{155, 315, 135}, {155, -315, -135}},
+    {{275, 145, 135}, {275, -145, -135}},
+    {{395, -25, 135}, {395, 25, -135}},
 };
 
-int ServerPos[3] = {285, 276, -45};
+int ServerPos[3] = {285, 275, -45};
 
 enum class Zs {
   Z_Move = 140,
@@ -38,6 +38,8 @@ enum class Zs {
 
 Servo GripServo;
 Servo CounterServo;
+const coordinate_t pos_Server = {285, 275, -45};
+const coordinate_t pos_Serveru = {285, 275, -45};
 const coordinate_t pos_PreA = {158, 317, 135};
 const coordinate_t pos_PreAu = {148, 307, 135};
 const coordinate_t pos_PostA = {158, -317, -135};
@@ -95,17 +97,18 @@ void setup() {
 }
 
 void loop() {
-  M5.update();
+  // M5.update();
   // GripServo.write(70);
   // GripServo.write(150);
   if (digitalRead(36) == HIGH) {
     // ExecFlagMain = true;
-    ExecFlagTest = true;
-  }
-  if (ExecFlagMain) {
-    MainMovement();
-  } else if (ExecFlagTest) {
     TestMovement();
+    ExecFlagTest = true;
+  // }
+  // if (ExecFlagMain) {
+  //   MainMovement();
+  // } else if (ExecFlagTest) {
+  //   TestMovement();
   } else {
     led[0] = CRGB::Orange;
     FastLED.show();
@@ -183,7 +186,7 @@ void TestMovement() {
   led[0] = CRGB::Green;
   FastLED.show();
   WaitDobot(1000);
-  delay(2000);
+  // delay(2000);
   GripServo.write(70);
   ArmOrientation(1);
   MOVJ(pos_PreA, int(Zs::Z_Move));
