@@ -36,10 +36,10 @@ enum class Zs {
   ServerInit = 185,
   ServerExec = 155,
 };
-enum class GripAngle {
+enum class GripAngle{
   Release = 70,
   Catch = 170,
-};
+} ;
 
 Servo GripServo;
 Servo CounterServo;
@@ -104,7 +104,7 @@ void setup() {
   pinMode(18, OUTPUT);
   GripServo.attach(26);
   CounterServo.attach(18);
-  GripServo.write(GripAngle::Catch);
+  GripServo.write(int(GripAngle::Catch));
   CounterServo.write(0);
 }
 
@@ -141,7 +141,8 @@ void sendJson(StaticJsonDocument<1024> json) {
   serializeJson(json, data);
   client.write(data);
   json.clear();
-  while (!client.available());
+  while (!client.available())
+    ;
 }
 
 void MOVJ(int x, int y, int z, int r) {
